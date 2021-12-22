@@ -45,23 +45,27 @@ var answerBtn = document.getElementById("answer-btn");
 var timer = document.getElementById('timer');
 var container = document.getElementById('container');
 var shuffledQuestions, currentQuestionIndex;
-var time = 5;
+var time = 60;
 var score = 0;
 var indexArray = 0;
-
+var restart = 0;
 
 function startQuiz() {
     resetState();
-    timer.innerHTML = 'Time: ' + (time); {
+    time = 60;
+    timer.innerHTML = 'Time: ' + (time); 
         var timeId = setInterval(() => {
-            time--;
+            if (restart) {
+                clearInterval(timeId)
+                restart = 0;
+            }
+            time --;
             timer.innerHTML = 'Time: ' + (time);
-            if (time <= 0) {
-                endTime()
+            if (time < 1) {
                 clearInterval(timeId);
+                endTime();
             }
         }, 1000);
-    }
     start.classList.add('hide');
     shuffledQuestions = question.sort(() => Math.random() - .5);
     currentQuestionIndex = 0;
@@ -94,7 +98,7 @@ function showQuestion(question) {
 }
 
 function resetState() {
-    // clearStatusClass(document.body)
+    //clearStatusClass(document.body)
     nextBtn.classList.add('hide')
     while (answerBtn.firstChild) {
         answerBtn.removeChild(answerBtn.firstChild)
@@ -114,6 +118,7 @@ function selectAnswer(e) {
         start.innerText = 'Restart'
         start.classList.remove('hide')
         nextBtn.classList.add('hide')
+        restart = 1;
     }
 }
 
