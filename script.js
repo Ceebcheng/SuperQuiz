@@ -1,9 +1,38 @@
-var questions = [ 
+var question = [ 
     {
-        q: 'what is 2 + 2?',
+        q: 'What is the HTML tag under which one can write the JavaScript code?',
         answers: [
-            { text: '4', correct: true },
-            { text: '22', correct: false }
+            { text: "A. <javascript>", correct: false },
+            { text: "B. <scripted>", correct: false },
+            { text: "C. <script>", correct: true },
+            { text: "D. <js>", correct: false },
+        ]
+    },
+    {
+        q: 'How do you create a function in JavaScript?',
+        answers: [
+            { text: "A. function:myFunction()", correct: false },
+            { text: "B. function myFunction()", correct: true },
+            { text: "C. function = myFunction()", correct: false },
+            { text: "D. None of the above.", correct: false },
+        ]
+    },
+    {
+        q: 'How to write an IF statement in JavaScript?',
+        answers: [
+            { text: "A.  if i = 5", correct: false },
+            { text: "B.  if (i == 5)", correct: true },
+            { text: "C.  if i == 5 then", correct: false },
+            { text: "D.  if i = 5 then", correct: false },
+        ]
+    },
+    {
+        q: "Which built-in method combines the text of two strings and returns a new string?",
+        answers: [
+            { text: "A. append()", correct: false },
+            { text: "B. concat()", correct: true },
+            { text: "C. attach()", correct: false },
+            { text: "D. None of the above.", correct: false },
         ]
     }
 ]
@@ -16,18 +45,36 @@ var answerBtn = document.getElementById("answer-btn");
 var shuffledQuestions, currentQuestionIndex;
 var timer = 60;
 var score = 0;
+var indexArray = 0;
 
 
 function startQuiz() {
+    quizTimer()
     resetState();
     start.classList.add('hide');
-    shuffledQuestions = questions.sort(() => Math.random() - .5);
+    shuffledQuestions = question.sort(() => Math.random() - .5);
     currentQuestionIndex = 0;
     questionContainer.classList.remove('hide')
     nextQuestions();
 }
 
+function quizTimer() {
+	var timeId = setInterval(() => {
+		timer = timer - 1;
+
+		if (timer < 0) timer = 0;
+
+		timer.textContent = timer;
+
+		if (timer <= 0 || indexArray === question.length) {
+			clearInterval(timeId);
+			completeQuiz();
+		}
+	}, 1000);
+}
+
 function nextQuestions () {
+    resetState()
     showQuestion(shuffledQuestions[currentQuestionIndex])
 }
 
@@ -46,6 +93,7 @@ function showQuestion(question) {
 }
 
 function resetState() {
+    // clearStatusClass(document.body)
     nextBtn.classList.add('hide')
     while (answerBtn.firstChild) {
         answerBtn.removeChild(answerBtn.firstChild)
@@ -59,7 +107,13 @@ function selectAnswer(e) {
     Array.from(answerBtn.children).forEach(button => {
         setStatusClass(button, button.dataset.correct)
     })
-    nextBtn.classList.remove('hide')
+    if (shuffledQuestions.length > currentQuestionIndex + 1) {
+        nextBtn.classList.remove('hide')
+    } else {
+        start.innerText = 'Restart'
+        start.classList.remove('hide')
+        nextBtn.classList.add('hide')
+    }
 }
 
 function setStatusClass(element, correct) {
@@ -78,6 +132,10 @@ function clearStatusClass(element) {
 }
 
 start.addEventListener("click", startQuiz);
+nextBtn.addEventListener("click", () => {
+    currentQuestionIndex++;
+    nextQuestions();
+})
 
 
 //Click on Start button
