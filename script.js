@@ -45,7 +45,7 @@ var answerBtn = document.getElementById("answer-btn");
 var timer = document.getElementById('timer');
 var container = document.getElementById('container');
 var shuffledQuestions, currentQuestionIndex;
-var time = 3;
+var time = 5;
 var score = 0;
 var indexArray = 0;
 
