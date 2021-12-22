@@ -42,15 +42,26 @@ var nextBtn = document.getElementById("next-btn");
 var questionContainer = document.getElementById("question-container");
 var questionEl = document.getElementById("question");
 var answerBtn = document.getElementById("answer-btn");
+var timer = document.getElementById('timer');
+var container = document.getElementById('container');
 var shuffledQuestions, currentQuestionIndex;
-var timer = 60;
+var time = 3;
 var score = 0;
 var indexArray = 0;
 
 
 function startQuiz() {
-    quizTimer()
     resetState();
+    timer.innerHTML = 'Time: ' + (time); {
+        var timeId = setInterval(() => {
+            time--;
+            timer.innerHTML = 'Time: ' + (time);
+            if (time <= 0) {
+                endTime()
+                clearInterval(timeId);
+            }
+        }, 1000);
+    }
     start.classList.add('hide');
     shuffledQuestions = question.sort(() => Math.random() - .5);
     currentQuestionIndex = 0;
@@ -58,19 +69,9 @@ function startQuiz() {
     nextQuestions();
 }
 
-function quizTimer() {
-	var timeId = setInterval(() => {
-		timer = timer - 1;
 
-		if (timer < 0) timer = 0;
-
-		timer.textContent = timer;
-
-		if (timer <= 0 || indexArray === question.length) {
-			clearInterval(timeId);
-			completeQuiz();
-		}
-	}, 1000);
+function endTime() {
+    questionContainer.innerHTML = "YOU LOSE";
 }
 
 function nextQuestions () {
