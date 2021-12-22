@@ -1,25 +1,83 @@
-var questions = [
+var questions = [ 
     {
-        q: "question 1",
-        options: ["a", "b", "c", "d"],
-        correct: "a"
-    },
-    {
-        q: "question 2",
-        options: ["a", "b", "c", "d"],
-        correct: "a"
+        q: 'what is 2 + 2?',
+        answers: [
+            { text: '4', correct: true },
+            { text: '22', correct: false }
+        ]
     }
 ]
 
-
-var start = document.getElementById("start");
-var count = 0;
-var time = 60;
-var answer = [];
+var start = document.getElementById("start-btn");
+var nextBtn = document.getElementById("next-btn");
+var questionContainer = document.getElementById("question-container");
+var questionEl = document.getElementById("question");
+var answerBtn = document.getElementById("answer-btn");
+var shuffledQuestions, currentQuestionIndex;
+var timer = 60;
 var score = 0;
 
 
-start.addEventListener("click", questions);
+function startQuiz() {
+    resetState();
+    start.classList.add('hide');
+    shuffledQuestions = questions.sort(() => Math.random() - .5);
+    currentQuestionIndex = 0;
+    questionContainer.classList.remove('hide')
+    nextQuestions();
+}
+
+function nextQuestions () {
+    showQuestion(shuffledQuestions[currentQuestionIndex])
+}
+
+function showQuestion(question) {
+    questionEl.innerText = question.q
+    question.answers.forEach(answer => {
+        var button = document.createElement('button')
+        button.innerText = answer.text
+        button.classList.add('btn')
+        if (answer.correct) {
+            button.dataset.correct = answer.correct
+        }
+        button.addEventListener('click', selectAnswer)
+        answerBtn.appendChild(button)
+    })
+}
+
+function resetState() {
+    nextBtn.classList.add('hide')
+    while (answerBtn.firstChild) {
+        answerBtn.removeChild(answerBtn.firstChild)
+    }
+}
+
+function selectAnswer(e) {
+    var selectedBtn = e.target
+    var correct = selectedBtn.dataset.correct
+    setStatusClass(document.body, correct)
+    Array.from(answerBtn.children).forEach(button => {
+        setStatusClass(button, button.dataset.correct)
+    })
+    nextBtn.classList.remove('hide')
+}
+
+function setStatusClass(element, correct) {
+    clearStatusClass(element)
+    if (correct) {
+        element.classList.add('correct')
+    } else {
+        element.classList.add('wrong')
+    }
+
+function clearStatusClass(element) {
+    element.classList.remove('correct')
+    element.classList.remove('wrong')
+}
+
+}
+
+start.addEventListener("click", startQuiz);
 
 
 //Click on Start button

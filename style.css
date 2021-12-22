@@ -21,10 +21,14 @@ body{
     place-items: center;
 }
 
-#start {
+#start-btn {
     background-color: green;
 }
 
-#start:hover {
+#start-btn:hover {
     box-shadow: 2px 2px red;
+}
+
+.hide {
+    display: none;
 }
