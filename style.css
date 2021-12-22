@@ -1,3 +1,30 @@
 *{
     background-color: lightgray;
+    padding: 5px;
+    margin: 5px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+body{
+    display: grid;
+    place-items: center;
+}
+
+#container {
+    height: auto;
+    width: auto;
+}
+
+#question-container {
+    display: grid;
+    place-items: center;
+}
+
+#start {
+    background-color: green;
+}
+
+#start:hover {
+    box-shadow: 2px 2px red;
 }

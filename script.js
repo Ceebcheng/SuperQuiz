@@ -11,7 +11,17 @@ var questions = [
     }
 ]
 
-var 
+
+var start = document.getElementById("start");
+var count = 0;
+var time = 60;
+var answer = [];
+var score = 0;
+
+
+start.addEventListener("click", questions);
+
+
 //Click on Start button
   // start the timer
   // display the first question with options 
